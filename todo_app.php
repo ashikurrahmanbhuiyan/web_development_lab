@@ -1,11 +1,8 @@
 <?php
-$arr = [
-    'ashik' => '123',
-    'admin' => 'admin'
-
-];
+$arr = json_decode(file_get_contents("todo_app.json"), true);
 if (isset($_GET['submit'])) {
-    echo  $_GET['email'];
+    $arr += array($_GET['title'] => $_GET['description']);
+    file_put_contents("todo_app.json", json_encode($arr));
 }
 ?>
 
@@ -19,10 +16,10 @@ if (isset($_GET['submit'])) {
 
 <body>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="GET">
-        <h2>ADD A NOTE </h2>
         <div class="mb-3 textpad">
+            <h2>ADD A NOTE </h2>
             <h3 class="form-label">Title</h1>
-            <input name="email" class="form-control" id="exampleFormControlInput1" placeholder="enter title">
+                <input name="title" class="form-control" id="exampleFormControlInput1" placeholder="enter title">
         </div>
         <div class="mb-3 textpad">
             <label for="exampleFormControlTextarea1" class="form-label">Note</label>
@@ -45,7 +42,21 @@ if (isset($_GET['submit'])) {
             </tr>
         </thead>
         <tbody>
-            <script src="bootstrap.min.js"></script>
+            <?php
+            $i = 1;
+            foreach ($arr as $key => $value) {
+                echo "<tr>
+                <th scope='row'>$i</th>
+                <td>$key</td>
+                <td>$value</td>
+                <td><button class='btn btn-primary'>Delete</button>
+            </tr>";
+                $i++;
+            }
+            ?>
+        </tbody>
+    </table>
+    <script src="bootstrap.min.js"></script>
 </body>
 
 </html>
