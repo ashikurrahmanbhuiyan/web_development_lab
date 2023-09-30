@@ -1,7 +1,11 @@
 <?php
 $arr = json_decode(file_get_contents("todo_app.json"), true);
-if (isset($_GET['submit'])) {
+if (isset($_GET['add'])) {
     $arr += array($_GET['title'] => $_GET['description']);
+    file_put_contents("todo_app.json", json_encode($arr));
+}
+if (isset($_GET['delete'])) {
+    unset($arr[$_GET['title']]);
     file_put_contents("todo_app.json", json_encode($arr));
 }
 ?>
@@ -26,7 +30,7 @@ if (isset($_GET['submit'])) {
             <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="enter note"></textarea>
         </div>
         <p class="center">
-            <button type="submit" name="submit" class="btn btn-primary">Add</button>
+            <button type="submit" name="add" class="btn btn-primary">Add</button>
         </p>
     </form>
     <br>
@@ -49,7 +53,11 @@ if (isset($_GET['submit'])) {
                 <th scope='row'>$i</th>
                 <td>$key</td>
                 <td>$value</td>
-                <td><button class='btn btn-primary'>Delete</button>
+                <td>
+                <a href=todo_app.php?title=$key&delete=delete>
+                <button type = 'submit' name = 'delete' class='btn btn-primary btn-danger'>Delete</button>
+                </a>
+                </td>
             </tr>";
                 $i++;
             }
