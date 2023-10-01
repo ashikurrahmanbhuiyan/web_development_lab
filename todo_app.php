@@ -1,16 +1,16 @@
 <?php
-$arr = json_decode(file_get_contents("todo_app.json"), true);
+$josn_file = "todo_app.json";
+$arr = json_decode(file_get_contents($josn_file), true);
 if (isset($_GET['add'])) {
-    //$arr += array($_GET['title'] => $_GET['description']);
     $arr = array_merge($arr, array(array("id" => count($arr) + 1, "title" => $_GET['title'], "desc" => $_GET['description'])));
-    file_put_contents("todo_app.json", json_encode($arr));
+    file_put_contents($josn_file, json_encode($arr));
 }
 if (isset($_GET['delete'])) {
 
     $id = $_GET['id'];  
     unset($arr[$id-1]);
     $arr = array_values($arr);
-    file_put_contents("todo_app.json", json_encode($arr));
+    file_put_contents($josn_file, json_encode($arr));
 }
 ?>
 
