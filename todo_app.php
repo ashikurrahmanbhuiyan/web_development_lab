@@ -1,11 +1,15 @@
 <?php
 $arr = json_decode(file_get_contents("todo_app.json"), true);
 if (isset($_GET['add'])) {
-    $arr += array($_GET['title'] => $_GET['description']);
+    //$arr += array($_GET['title'] => $_GET['description']);
+    $arr = array_merge($arr, array(array("id" => count($arr) + 1, "title" => $_GET['title'], "desc" => $_GET['description'])));
     file_put_contents("todo_app.json", json_encode($arr));
 }
 if (isset($_GET['delete'])) {
-    unset($arr[$_GET['title']]);
+
+    $id = $_GET['id'];  
+    unset($arr[$id-1]);
+    $arr = array_values($arr);
     file_put_contents("todo_app.json", json_encode($arr));
 }
 ?>
@@ -48,14 +52,14 @@ if (isset($_GET['delete'])) {
         <tbody>
             <?php
             $i = 1;
-            foreach ($arr as $key => $value) {
+            foreach ($arr as $a) {
                 echo "<tr>
-                <th scope='row'>$i</th>
-                <td>$key</td>
-                <td>$value</td>
+                <th scope='row'>".$i."</th>
+                <td>".$a['title']. "</td>
+                <td>" . $a['desc'] . "</td>
                 <td>
-                <a href=todo_app.php?title=$key&delete=delete>
-                <button type = 'submit' name = 'delete' class='btn btn-primary btn-danger'>Delete</button>
+                <a href=todo_app.php?id=".$i."&delete=delete>
+                <button class='btn btn-primary btn-danger'>Delete</button>
                 </a>
                 </td>
             </tr>";
