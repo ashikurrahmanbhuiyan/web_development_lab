@@ -4,6 +4,7 @@ $arr = json_decode(file_get_contents($josn_file), true);
 if (isset($_GET['add'])) {
     $arr = array_merge($arr, array(array("id" => count($arr) + 1, "title" => $_GET['title'], "desc" => $_GET['description'])));
     file_put_contents($josn_file, json_encode($arr));
+    
 }
 if (isset($_GET['delete'])) {
 
@@ -11,6 +12,9 @@ if (isset($_GET['delete'])) {
     unset($arr[$id-1]);
     $arr = array_values($arr);
     file_put_contents($josn_file, json_encode($arr));
+
+	header("Location: todo_app.php");
+	exit();
 }
 ?>
 
