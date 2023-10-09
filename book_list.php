@@ -19,7 +19,6 @@ if (isset($_GET['delete'])) {
     unset($arr[$id - 1]);
     $arr = array_values($arr);
     file_put_contents($josn_file, json_encode($arr));
-
     header("Location: book_list.php");
 }
 if (isset($_GET['submit-btn'])) {
@@ -41,8 +40,8 @@ if (isset($_GET['submit-btn'])) {
 
 <body>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="GET">
-        <div class="mb-3 textpad">
-            <a class="center" href="book_list.php">
+        <div class="mb-3" style="padding-left: 7%;padding-right: 7%;">
+            <a style="text-align: center;" href="book_list.php">
                 <h2>Add A Book </h2>
             </a>
             <div class="form-group row">
@@ -83,7 +82,7 @@ if (isset($_GET['submit-btn'])) {
             </div>
 
         </div>
-        <p class="center">
+        <p style="text-align: center;">
             <button type="submit" name="add" class="btn btn-primary">Add</button>
         </p>
     </form>
